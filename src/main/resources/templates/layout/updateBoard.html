@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/layout/basic}"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <th:block>
+        <link type="text/css" rel="stylesheet" th:href="@{/css/styles.css}">
+    </th:block>
+</head>
+<body>
+<!-- Responsive navbar-->
+<th:block layout:fragment="content">
+    <!-- Page content-->
+    <th:block layout:fragment="page_content" id="page_content">
+        <div class="container">
+            <body>
+            <div class="login-wrapper">
+                <h3>글 수정</h3>
+                <br/>
+                <form method="POST" action="/board/update" th:object="${boardInfo}">
+                    <input type="hidden" name="_method" value="PUT"/>
+                    <div>
+                        <label>제목 :</label>
+                        <input type="text" th:value="${boardInfo.title}" name="title"/>
+                    </div>
+                    <div>
+                        <label>작성자 :</label>
+                        <input class="" th:value="${username}" id="username" disabled/>
+                        <input type="hidden" name="username" class="form-control" id="inputUsername"
+                               th:value="${username}">
+                    </div>
+                    <br/>
+                    <div>
+                        <label>내용 :</label>
+                        <textarea cols="50" rows="5" th:text="${boardInfo.getContent().toString()}"
+                                  name="content"></textarea><br/>
+                    </div>
+                    <input type="text" th:value="${boardInfo.id}" name="boardId" hidden/>
+                    <input type="submit" value="수정완료">
+                </form>
+            </div>
+            </body>
+        </div>
+        <button onclick="location.href='/'">목록</button>
+    </th:block>
+</th:block>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="/js/scripts.js"></script>
+
+
+</body>
+</html>
+
+</body>
+</html>

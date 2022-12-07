@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:fragment="main-head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <th:block layout:fragment="title"></th:block>
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
+    <th:block layout:fragment="add-css"></th:block>
+
+    <meta name="context-path" th:content="@{/}"/>
+    <title sec:authorize="hasAnyRole('ROLE_USER')" layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">사원</title>
+    <title sec:authorize="hasAnyRole('ROLE_ADMIN')" layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">경영진</title>
+
+    <link rel="icon" type="image/png" th:href="@{/img/bigFace.jpg}" sizes="32x32"/>
+</head>
+</html>

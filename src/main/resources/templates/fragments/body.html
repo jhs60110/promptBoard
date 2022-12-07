@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns="http://www.w3.org/1999/xhtml">
+
+<body th:fragment="main-body">
+
+<div sec:authorize="isAnonymous()" layout:insert="~{/navigations/_navbar}" th:remove="tag"></div>
+<div sec:authorize="hasRole('ROLE_USER')" layout:insert="~{/navigations/user_navbar}" th:remove="tag"></div>
+<div sec:authorize="hasRole('ROLE_ADMIN')" layout:insert="~{/navigations/admin_navbar}" th:remove="tag"></div>
+
+<div id="wrapper">
+    <div class="main-content">
+        <div class="row row-inline-block small-spacing">
+            <div class="col-xs-12">
+                <div class="box-content">
+                    <th:block layout:fragment="content"></th:block>
+                    <th:block layout:fragment="paging"></th:block>
+                </div>
+                <th:block layout:fragment="add-content"></th:block>
+            </div>
+        </div>
+        <footer class="footer">
+            <ul class="list-inline">
+                <br/>
+                <li style="text-align: center">hesu</li>
+            </ul>
+        </footer>
+    </div>
+</div>
+
+
+<th:block layout:fragment="script"></th:block>
+</body>
+</html>
