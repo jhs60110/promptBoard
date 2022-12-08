@@ -33,29 +33,26 @@
                 <tr th:each="board:${list}">
                     <td th:text="${board.id}">1</td>
                     <td>
-                        <a th:text="${board.title}" th:href="@{/board/${board.id}}"></a>
+                        <a th:text="${board.title}" th:href="@{/boards/{id}(id = ${board.id})}" ></a>
                     </td>
                     <td>
-                        <a th:text="${board.user.userName}" th:href="@{/board/view(id=${board.id})}"></a>
+                        <a th:text="${board.user.userName}" th:href="@{/boards/{id}(id = ${board.id})}"></a>
                     </td>
-<!--                                <td>-->
-<!--                                    <a th:text="${board.userId.getUserName()}" th:href="@{/board/view(id=${board.id})}"></a>-->
-<!--                                </td>-->
                     <td>
-                        <a th:text="${board.createdDate}" th:href="@{/board/view(id=${board.id})}"></a>
+                        <a th:text="${board.createdDate}" th:href="@{/boards/{id}(id = ${board.id})}"></a>
                     </td>
                     <td>
                         <button sec:authorize="isAuthenticated()"
-                                th:onclick="'location.href=\''+ @{/board/view(id=${board.id})} + '\''">상세보기
+                                th:onclick="'location.href=\''+ @{/boards/{id}(id = ${board.id})} + '\''">상세보기
                         </button>
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <button sec:authorize="isAuthenticated()" onclick="location.href='/board/save'">글쓰기</button>
+            <button sec:authorize="isAuthenticated()" onclick="location.href='/boards/new'">글쓰기</button>
             <div style="text-align: center">
                 <th:block th:each="page:${#numbers.sequence(startPage,endPage)}" >
-                    <a th:if="${page != nowPage}" th:href="@{/board/list(page=${page-1})}" th:text="${page}"></a>
+                    <a th:if="${page != nowPage}" th:href="@{/boards/list(page=${page-1})}" th:text="${page}"></a>
                     <strong th:if="${page==nowPage}" th:text="${page}" style="color:red"></strong>
                 </th:block>
             </div>

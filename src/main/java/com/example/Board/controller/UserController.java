@@ -10,8 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/account")
 public class UserController {
 
     private Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -27,10 +29,10 @@ public class UserController {
         return "layout/login";
     }
 
-    @PostMapping("/account/login")
+    @PostMapping("/login")
     public String login() {
 
-        return "layout/mainPage";
+        return "layout/board/mainPage";
     }
 
     @GetMapping("/join")
@@ -39,15 +41,15 @@ public class UserController {
         return "layout/join";
     }
 
-    @PostMapping("/account/join")
+    @PostMapping("/join")
     public String join(User user) {
         String rawPassword = user.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(rawPassword);
         user.setPassword(encPassword);
-        user.setRole("ROLE_ADMIN");
+        user.setRole("ROLE_USER");
         userRepository.save(user);
 
-        return "redirect:/login";
+        return "redirect:/account/login";
     }
 
 }

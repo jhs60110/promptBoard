@@ -25,30 +25,33 @@
         <div class="container">
             <body>
             <div class="login-wrapper">
-                <h3>글 작성</h3>
+                <h3>글 수정</h3>
                 <br/>
-                <form method="post" action="/board/save" th:object="${board}">
+                <form method="POST" action="/boards/update" th:object="${boardInfo}">
+                    <input type="hidden" name="_method" value="PUT"/>
                     <div>
-                        <label>제목</label>
-                        <input type="text" name="title"/>
+                        <label>제목 :</label>
+                        <input type="text" th:value="${boardInfo.title}" name="title"/>
                     </div>
                     <div>
-                        <label>작성자</label>
+                        <label>작성자 :</label>
                         <input class="" th:value="${username}" id="username" disabled/>
                         <input type="hidden" name="username" class="form-control" id="inputUsername"
                                th:value="${username}">
                     </div>
                     <br/>
                     <div>
-                        <label>내용</label>
-                        <textarea cols="50" rows="5" name="content"></textarea><br/>
+                        <label>내용 :</label>
+                        <textarea cols="50" rows="5" th:text="${boardInfo.getContent().toString()}"
+                                  name="content"></textarea><br/>
                     </div>
-                    <input type="submit" value="등록">
+                    <input type="text" th:value="${boardInfo.id}" name="boardId" hidden/>
+                    <input type="submit" value="수정완료">
                 </form>
             </div>
             </body>
         </div>
-        <button onclick="location.href='/'">목록</button>
+        <button onclick="location.href='/boards'">목록</button>
     </th:block>
 </th:block>
 <!-- Bootstrap core JS-->

@@ -2,7 +2,6 @@ package com.example.Board.controller;
 
 import com.example.Board.config.PrincipalDetails;
 import com.example.Board.entity.Board;
-import com.example.Board.entity.Comment;
 import com.example.Board.entity.User;
 import com.example.Board.repository.BoardRepository;
 import com.example.Board.repository.UserRepository;
@@ -23,9 +22,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @RequestMapping("/boards")
-@Slf4j
+//@Slf4j
 public class BoardController {
     private Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
@@ -35,11 +34,8 @@ public class BoardController {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private CommentService commentService;
-
-    @GetMapping("")
-    public String boardList(Authentication authentication, Model model, @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+    @GetMapping({"", "/list"})
+    public String boardMain(Authentication authentication, Model model, @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
         if (authentication != null) {
             PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
@@ -47,10 +43,7 @@ public class BoardController {
         }
         Page<Board> list = boardService.boardList(pageable);
 
-        //페이지블럭 처리
-        //1을 더해주는 이유는 pageable은 0부터라 1을 처리하려면 1을 더해서 시작해주어야 한다.
         int nowPage = list.getPageable().getPageNumber() + 1;
-        //-1값이 들어가는 것을 막기 위해서 max값으로 두 개의 값을 넣고 더 큰 값을 넣어주게 된다.
         int startPage = Math.max(nowPage - 4, 1);
         int endPage = Math.min(nowPage + 9, list.getTotalPages());
 
@@ -59,104 +52,66 @@ public class BoardController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
 
-        return "layout/mainPage";
+        return "layout/board/mainPage";
     }
 
-    @GetMapping("/board/save")
+    //게사글 상세보기
+    @GetMapping("/{id}")
+    public String boardView(Model model, Authentication authentication, @PathVariable Long id) { //pk만 받을거면 pk만 board로 다 받아오면 뭐하는 앤지 유추하기 어렵잖아!
+        if (authentication != null) {
+            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+            model.addAttribute("principalDetails", principalDetails);
+        }
+
+        Board boardInfo = boardRepository.findById(id).get();
+        model.addAttribute("boardInfo", boardInfo);
+
+        return "layout/board/viewBoard";
+    }
+
+    @GetMapping("/new")
     public String boardWrite(Model model, Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         model.addAttribute("username", principalDetails.getUsername());
 
-        return "layout/makeBoard";
+        return "layout/board/makeBoard";
     }
 
-    @PostMapping("/board/save")
-    public String boardSave(Board board, @RequestParam("username") String userName) {
-        logger.info("post");
+    @PostMapping("/new")
+    public String boardWrite(Board board, @RequestParam("username") String userName) {
         User authId = userRepository.findByuserName(userName);
         board.setUser(authId);
         boardRepository.save(board);
 
-        return "redirect:/";
+        return "redirect:/boards";
     }
 
-    @GetMapping("/board/update")
+    @GetMapping("/update/{id}") //TODO 수정은 html단에서 js로 수정칸을 열고 수정 화면을 삭제 한 후 url 주소를 ""로바꾸기
     public String boardUpdate(Model model, Authentication authentication, Board board) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
         model.addAttribute("username", principalDetails.getUser().getUserName());
-        logger.info(principalDetails.getUser().getUserName());
         Board boardInfo = boardRepository.findById(board.getId()).get();
         model.addAttribute("boardInfo", boardInfo);
 
-        return "layout/updateBoard";
+        return "layout/board/updateBoard";
     }
 
-    @PutMapping("/board/update")
+    @PutMapping("/update") //TODO 수정은 html단에서 js로 수정칸을 열고 수정 화면을 삭제 한 후 url 주소를 ""로바꾸기
     public String boardUpdate(Board board, @RequestParam("username") String userName, @RequestParam("boardId") String boardId) {
         User authId = userRepository.findByuserName(userName);
         board.setUser(authId);
         board.setId(Long.valueOf(boardId));
         boardRepository.save(board);
 
-        return "redirect:/";
+        return "redirect:/boards";
     }
 
-    @GetMapping("/board/{id}")
-    public String boardView(Model model, Authentication authentication , @PathVariable Long id) { //pk만 받을거면 pk만
-        if (authentication != null) {
-            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-            model.addAttribute("username", principalDetails.getUsername());
-            model.addAttribute("userId", principalDetails.getUser().getUserId());
-            model.addAttribute("userRole", principalDetails.getUser().getRole());
-            //>>
-//            model.addAttribute("principalDetails", principalDetails); //??
-        }
-        Board boardInfo = boardRepository.findById(id).get();
-        model.addAttribute("boardInfo", boardInfo);
-        logger.info(String.valueOf(boardInfo));
 
-        return "layout/viewBoard";
-    }
-// 댓글 show
-//    @GetMapping("/board/view")
-//    public String boardView(Model model, Authentication authentication, Board board, Comment comment, @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-//        if (authentication != null) {
-//            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-//            model.addAttribute("username", principalDetails.getUsername());
-//            model.addAttribute("userId", principalDetails.getUser().getUserId());
-//            model.addAttribute("userRole", principalDetails.getUser().getRole());
-//        }
-////        if (comment != null) { //그 n번 게시물에 달린 댓글
-////            PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-////            model.addAttribute("username", principalDetails.getUsername());
-////            model.addAttribute("userId", principalDetails.getUser().getUserId());
-////            model.addAttribute("userRole", principalDetails.getUser().getRole());
-////        }
-//
-//        Page<Comment> list = commentService.commentList(pageable);
-//
-//        int nowPage = list.getPageable().getPageNumber() + 1;
-//        int startPage = Math.max(nowPage - 4, 1);
-//        int endPage = Math.min(nowPage + 9, list.getTotalPages());
-//
-//        model.addAttribute("list", list);
-//        model.addAttribute("nowPage", nowPage);
-//        model.addAttribute("startPage", startPage);
-//        model.addAttribute("endPage", endPage);
-//        Board boardInfo = boardRepository.findById(board.getId()).get();
-//        model.addAttribute("boardInfo", boardInfo);
-//        logger.info(String.valueOf(boardInfo));
-//
-//        return "layout/viewBoard";
-//    }
-
-    @PostMapping("/board/delete")
+    @DeleteMapping("")
     public String boardDelete(@RequestParam("boardId") Long boardId) {
-        logger.info("삭제호출");
-        logger.info(String.valueOf(boardId));
         boardRepository.deleteById(boardId);
 
-        return "redirect:/";
+        return "redirect:/boards";
     }
 
 }

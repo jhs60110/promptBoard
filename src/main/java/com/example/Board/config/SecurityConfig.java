@@ -21,17 +21,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable(); //비활성화
         http.authorizeRequests()
-                .antMatchers("/board/**").authenticated() // TODO 이 주소로 들어오면 인증이 필요해요, 정리하삼 아예 버튼을 감춰놓긴 했어요
+                .antMatchers("/boards/**").authenticated() // TODO todo사용하기
                 //.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
                 //.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') and hasRole('ROLE_USER')")
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")//이 주소로 들어오면 인증&&ADMIN 권한이 필요해요
                 .anyRequest().permitAll() //다른 요청은 권한이 필요 없다
                 .and()
                 .formLogin()//로그인 안되어 있으면 로그인 페이지로 이동하라
-                .loginPage("/login")
+                .loginPage("/account/login")
                 .usernameParameter("userId")
                 .loginProcessingUrl("/account/login")
-                .defaultSuccessUrl("/");
+                .defaultSuccessUrl("/boards");
 
     }
 }
