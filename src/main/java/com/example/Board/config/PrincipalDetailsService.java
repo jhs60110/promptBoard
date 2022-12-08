@@ -18,7 +18,7 @@ public class PrincipalDetailsService implements UserDetailsService {
 
     //시큐리티 session = Authentication(내부 UserDetails)
     @Override                      //여기에 들어갈 파라미터 html name 속성이름이랑 맞춰야함
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException { // UserDetails readOnly 파일이아 함수명 userName으로 못바꿈
         User userEntity = userRepository.findByuserId(userId);
         if (userEntity == null) {
             return null;

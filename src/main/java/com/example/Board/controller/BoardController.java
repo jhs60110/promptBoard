@@ -39,7 +39,7 @@ public class BoardController {
 
         if (authentication != null) {
             PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-            model.addAttribute("username", principalDetails.getUser().getUserName());
+            model.addAttribute("UserDetails", principalDetails.getUser().getUserName());
         }
         Page<Board> list = boardService.boardList(pageable);
 
@@ -72,13 +72,13 @@ public class BoardController {
     @GetMapping("/new")
     public String boardWrite(Model model, Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        model.addAttribute("username", principalDetails.getUsername());
+        model.addAttribute("userName", principalDetails.getUsername()); // principalDetails가 확장하고있는 UserDetails가 수정불가 파일이라 이름을 못바꿈
 
         return "layout/board/makeBoard";
     }
 
     @PostMapping("/new")
-    public String boardWrite(Board board, @RequestParam("username") String userName) {
+    public String boardWrite(Board board, @RequestParam("userName") String userName) {
         User authId = userRepository.findByuserName(userName);
         board.setUser(authId);
         boardRepository.save(board);
@@ -89,7 +89,7 @@ public class BoardController {
     @GetMapping("/update/{id}") //TODO 수정은 html단에서 js로 수정칸을 열고 수정 화면을 삭제 한 후 url 주소를 ""로바꾸기
     public String boardUpdate(Model model, Authentication authentication, Board board) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        model.addAttribute("username", principalDetails.getUser().getUserName());
+        model.addAttribute("userName", principalDetails.getUser().getUserName());
         Board boardInfo = boardRepository.findById(board.getId()).get();
         model.addAttribute("boardInfo", boardInfo);
 
@@ -97,7 +97,7 @@ public class BoardController {
     }
 
     @PutMapping("/update") //TODO 수정은 html단에서 js로 수정칸을 열고 수정 화면을 삭제 한 후 url 주소를 ""로바꾸기
-    public String boardUpdate(Board board, @RequestParam("username") String userName, @RequestParam("boardId") String boardId) {
+    public String boardUpdate(Board board, @RequestParam("userName") String userName, @RequestParam("boardId") String boardId) {
         User authId = userRepository.findByuserName(userName);
         board.setUser(authId);
         board.setId(Long.valueOf(boardId));
