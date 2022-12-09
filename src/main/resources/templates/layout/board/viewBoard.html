@@ -21,7 +21,6 @@
             <div class="login-wrapper">
                 <h3>글 작성</h3>
                 <br/>
-
                 <div>
                     <label>제목 :</label>
                     <a type="text" th:text="${boardInfo.title}" name="title"/>
@@ -38,18 +37,22 @@
                        name="content"></a><br/>
                 </div>
                 <br/>
-
-                <button sec:authorize="isAuthenticated()"
+                <button type="button" class="btn btn-primary" sec:authorize="isAuthenticated()"
                         th:if="${principalDetails.getUser().getUserId() == boardInfo.user.userId}"
-                        th:onclick="'location.href=\''+ @{/boards/update/{id}(id = ${boardInfo.id})} + '\''">수정
-                </button>
+                        th:onclick="'location.href=\''+ @{/boards/update/{id}(id = ${boardInfo.id})} + '\''">수정</button>
+<!--                <button sec:authorize="isAuthenticated()"-->
+<!--                        th:if="${principalDetails.getUser().getUserId() == boardInfo.user.userId}"-->
+<!--                        th:onclick="'location.href=\''+ @{/boards/update/{id}(id = ${boardInfo.id})} + '\''">수정-->
+<!--                </button>-->
 
                 <form method="post" action="/boards">
                     <input type="hidden" name="_method" value="DELETE"/>
                     <input type="hidden" th:value="${boardInfo.id}" name="boardId"/>
-                    <button type="submit"
-                            th:if="${principalDetails.getUser().getUserName() == boardInfo.user.userId or principalDetails.getUser.getRole()=='ROLE_ADMIN'}">삭제
-                        <!--                            th:onclick="'location.href=\''+ @{/board/delete(id=${board.id})} + '\''"-->
+                    <button type="submit" class="btn btn-danger"
+                            th:if="${principalDetails.getUser().getUserName() == boardInfo.user.userId or principalDetails.getUser.getRole()=='ROLE_ADMIN'}">
+                        삭제
+                    </button>
+                    <!--                            th:onclick="'location.href=\''+ @{/board/delete(id=${board.id})} + '\''"-->
                     </button>
                 </form>
             </div>

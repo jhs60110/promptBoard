@@ -28,22 +28,24 @@
                 <h3>글 작성</h3>
                 <br/>
                 <form method="POST" action="/boards/new" th:object="${board}">
-                    <div>
-                        <label>제목</label>
-                        <input type="text" name="title"/>
+                    <div class="mb-3">
+                        <label for="boardTitle" class="form-label">제목</label>
+                        <input type="text" class="form-control" id="boardTitle" name="title" placeholder="제목을 입력하세요">
                     </div>
-                    <div>
-                        <label>작성자</label>
-                        <input class="" th:value="${userName}" id="userName" disabled/>
-                        <input type="hidden" name="userName" class="form-control" id="inputUsername"
-                               th:value="${userName}">
+
+                    <div class="mb-2 row">
+                        <label for="boardAuther" class="col-sm-1 col-form-label">작성자: </label>
+                        <div class="col-sm-5">
+                            <input type="text" readonly class="form-control-plaintext" id="boardAuther" name="userName"
+                                   th:value="${userName}">
+                        </div>
                     </div>
-                    <br/>
-                    <div>
-                        <label>내용</label>
-                        <textarea cols="50" rows="5" name="content"></textarea><br/>
+                    <div class="mb-3">
+                        <label for="boardContent" class="form-label">내용</label>
+                        <textarea class="form-control" id="boardContent" name="content" rows="3"></textarea>
                     </div>
                     <input type="submit" value="등록">
+
                 </form>
             </div>
             </body>
