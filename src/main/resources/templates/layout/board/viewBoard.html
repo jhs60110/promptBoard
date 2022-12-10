@@ -3,7 +3,7 @@
         xmlns:th="http://www.thymeleaf.org"
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{/layout/basic}"
+        layout:decorate="~{/fragments/basic}"
         xmlns:sec="http://www.w3.org/1999/xhtml">
 <!-- Responsive navbar-->
 <th:block layout:fragment="content">
@@ -12,14 +12,14 @@
         <div class="container">
             <div class="login-wrapper">
                 <h3>글 상세</h3>
-                <br/>
+
                 <div>
                     <label>제목 :</label>
                     <a th:text="${boardInfo.title}" id="title"/>
                 </div>
                 <div>
                     <label>작성자 :</label>
-                    <a th:text="${boardInfo.user.userName}" id="username"/>
+                    <a th:text="${boardInfo.user.userName}" id="userName"/>
                 </div>
                 <br/>
                 <div class="mb-3">
@@ -27,14 +27,71 @@
                               th:utext="${boardInfo.getContent().toString()}"
                               rows="3"></textarea>
                 </div>
-                <br/>
+
+                <hr>
+
+                <form method="POST" action="/boards/comment">
+                    <div class="form-group">
+                        <input type="hidden" name="boardId" class="form-control"
+                               th:value="${boardInfo.id}">
+                        <label>댓글작성하기</label>
+                        <input type="text" class="form-control" placeholder="댓글을 입력하세요" name="content"
+                               aria-describedby="basic-addon1">
+                    </div>
+                    <button type="submit" class="btn btn-primary">등록</button>
+                </form>
+
+<!--<div class="card">-->
+<!--    <div class="card-header">맷글 목록</div>-->
+<!--    <ul id="comment-box" class="list-group">-->
+<!--        <tr th:each="comment:${comment}">-->
+<!--        </tr>-->
+
+<!--    </ul>-->
+<!--</div>-->
+                <!--                댓글 페이징-->
+                <div>
+                    <table class="table table-hover">
+                        <thead>
+                        <tr class="table-secondary">
+                            <th>#</th>
+                            <th>댓글</th>
+                            <th>작성자</th>
+                            <th>작성시간</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="comment:${comment}">
+                            <td th:text="${comment.id}">1</td>
+                            <td>
+                                <a th:text="${comment.content}"></a>
+                            </td>
+                            <td>
+                                <a th:text="${comment.user.userName}"></a>
+                            </td>
+                            <td>
+                                <a th:text="${comment.createdDate}"></a>
+                            </td>
+                            <td>
+                                <!--                                <button type="button" class="btn btn-secondary" sec:authorize="isAuthenticated()"-->
+                                <!--                                        th:onclick="'location.href=\''+ @{/boards/{id}(id = ${board.id})} + '\''">수정-->
+                                <!--                                </button>-->
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
                 <form method="post" action="/boards">
                     <input type="hidden" name="_method" value="DELETE"/>
                     <input type="hidden" th:value="${boardInfo.id}" name="boardId"/>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button type="button" class="btn btn-primary" sec:authorize="isAuthenticated()"
                                 th:if="${principalDetails.getUser().getUserId() == boardInfo.user.userId}"
-                                th:onclick="'location.href=\''+ @{/boards/update/{id}(id = ${boardInfo.id})} + '\''">수정
+                                th:onclick="'location.href=\''+ @{/boards/update/{id}(id = ${boardInfo.id})} + '\''">
+                            수정
                         </button>
                         <button type="submit" class="btn btn-danger"
                                 th:if="${principalDetails.getUser().getUserId() == boardInfo.user.userId

@@ -19,10 +19,10 @@ public class User {
     private String userId;
 
     @OneToMany(mappedBy = "user") //어느 테이블에 매핑되는지
-    private List<Board> boards = new ArrayList<>();
+    private List<Board> board = new ArrayList<>();
 
     @OneToMany(mappedBy = "user") //어느 테이블에 매핑되는지
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> comment = new ArrayList<>();
 
     @Column(nullable = false, length = 10)
     private String userName;

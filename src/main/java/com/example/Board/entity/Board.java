@@ -24,7 +24,7 @@ public class Board {
     private User user;
 
     @OneToMany(mappedBy = "board")
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> comment = new ArrayList<>();
 
     @Column(nullable = false, length = 30)
     private String title;

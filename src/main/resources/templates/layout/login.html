@@ -3,7 +3,7 @@
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/layout/basic}"
+      layout:decorate="~{/fragments/basic}"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 <!-- Responsive navbar-->
 <th:block layout:fragment="content">
@@ -11,22 +11,21 @@
     <th:block layout:fragment="page_content" id="page_content">
         <div class="container">
             <div class="text-center mt-5">
-                <body>
-                <div class="login-wrapper">
-                    <h3>로그인</h3>
+                <h3>로그인</h3>
+                <div class="col-sm-6 col-md-offset-3">
                     <form method="post" action="/account/login" id="login-form" th:object="${user}">
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">아이디</span>
+                        <div class="form-group">
+                            <label>아이디</label>
                             <input type="text" class="form-control" placeholder="아이디를 입력하세요" name="userId"
                                    aria-describedby="basic-addon1">
                         </div>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon2">비번</span>
+                        <div class="form-group">
+                            <label>비밀번호</label>
                             <input type="password" class="form-control" placeholder="비밀번호를 입력하세요" name="password"
                                    aria-describedby="basic-addon1">
                         </div>
                         <br/>
-                        <button type="submit" class="btn btn-primary">Login</button>
+                        <button type="submit" class="btn btn-primary">로그인</button>
                     </form>
                 </div>
             </div>
