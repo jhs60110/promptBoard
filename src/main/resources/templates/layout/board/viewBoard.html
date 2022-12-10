@@ -30,59 +30,52 @@
 
                 <hr>
 
-                <form method="POST" action="/boards/comment">
-                    <div class="form-group">
-                        <input type="hidden" name="boardId" class="form-control"
-                               th:value="${boardInfo.id}">
-                        <label>댓글작성하기</label>
-                        <input type="text" class="form-control" placeholder="댓글을 입력하세요" name="content"
-                               aria-describedby="basic-addon1">
+                <div class="card mb-2 mt-5">
+                    <div class="card-header bg-light">
+                        <i class="fa fa-comment fa"></i> 댓글작성하기
                     </div>
-                    <button type="submit" class="btn btn-primary">등록</button>
-                </form>
-
-<!--<div class="card">-->
-<!--    <div class="card-header">맷글 목록</div>-->
-<!--    <ul id="comment-box" class="list-group">-->
-<!--        <tr th:each="comment:${comment}">-->
-<!--        </tr>-->
-
-<!--    </ul>-->
-<!--</div>-->
-                <!--                댓글 페이징-->
-                <div>
-                    <table class="table table-hover">
-                        <thead>
-                        <tr class="table-secondary">
-                            <th>#</th>
-                            <th>댓글</th>
-                            <th>작성자</th>
-                            <th>작성시간</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="comment:${comment}">
-                            <td th:text="${comment.id}">1</td>
-                            <td>
-                                <a th:text="${comment.content}"></a>
-                            </td>
-                            <td>
-                                <a th:text="${comment.user.userName}"></a>
-                            </td>
-                            <td>
-                                <a th:text="${comment.createdDate}"></a>
-                            </td>
-                            <td>
-                                <!--                                <button type="button" class="btn btn-secondary" sec:authorize="isAuthenticated()"-->
-                                <!--                                        th:onclick="'location.href=\''+ @{/boards/{id}(id = ${board.id})} + '\''">수정-->
-                                <!--                                </button>-->
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <form method="POST" action="/boards/comment">
+                                    <input type="hidden" name="boardId" class="form-control"
+                                           th:value="${boardInfo.id}">
+                                    <textarea class="form-control" id="exampleFormControlTextarea1"
+                                              placeholder="댓글을 입력하세요" name="content" rows="1"></textarea>
+                                    <button type="submit" class="btn btn-primary mt-3">등록</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+                <br/>
+                <div class="card">
+                    <div class="card-header">댓글</div>
+                    <ul id="reply--box" class="list-group" th:each="comment : ${comment}">
+                        <li th:id="'rid' + ${comment.id} " class="list-group-item d-flex justify-content-between">
+                            <div th:text="${comment.content}"></div>
+                            <div class="d-flex">
+                                <span class="text-monospace mr-1">작성자: </span>
+                                <div class="text-monospace mr-1" th:text="${comment.user.userName}"></div>
+
+                                <a class="btn btn-primary" data-toggle="collapse" th:data-target="${'#collapsePad'+comment.id}" aria-expanded="false" aria-controls="collapsePad" sec:authorize="isAuthenticated()" th:if="${principalDetails.getUser().getUserId() == comment.user.userId}">수정
+                                </a>
+
+                                <button class="badge btn-danger" th:if="${principalDetails.getUser().getUserId() == comment.user.userIdor principalDetails.getUser.getRole()=='ROLE_ADMIN'}">삭제
+                                </button>
+                            </div>
+                        </li>
+                        <div class="collapse" th:id="'collapsePad'+${comment.id}">
+                            <div class="well">
+                                         <textarea class="form-control"
+                                                   placeholder="댓글을 수정하세요" name="content"></textarea>
+                            </div>
+                            <button>수정</button>
+                        </div>
+                    </ul>
+
+                </div>
+
 
                 <form method="post" action="/boards">
                     <input type="hidden" name="_method" value="DELETE"/>
@@ -109,6 +102,9 @@
             $(document).ready(function () {
                 $('#summernote').summernote('disable');
             });
+            $('#collapse').collapse({
+                toggle: false
+            })
 
         </script>
     </th:block>
