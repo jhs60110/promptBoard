@@ -20,8 +20,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -38,7 +36,6 @@ public class BoardController {
     private BoardRepository boardRepository;
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private CommentRepository commentRepository;
 
@@ -87,7 +84,6 @@ public class BoardController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
 
-
         return "layout/board/viewBoard";
     }
 
@@ -98,22 +94,6 @@ public class BoardController {
 
         return "layout/board/makeBoard";
     }
-
-    @PostMapping("/comment")
-    public String commentWrite(Comment comment, Authentication authentication, @RequestParam("boardId") Long boardId, HttpServletRequest request) {
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        logger.info(String.valueOf(comment));
-        User authId = userRepository.findByUserName(principalDetails.getUsername());
-        Board commentBoardId = boardRepository.getReferenceById(boardId);
-        comment.setUser(authId);
-        comment.setBoard(commentBoardId);
-
-        commentRepository.save(comment);
-        return "redirect:" + request.getHeader("Referer");
-
-
-    }
-
 
     @PostMapping("/new")
     public String boardWrite(Board board, @RequestParam("userName") String userName) {
@@ -143,7 +123,6 @@ public class BoardController {
 
         return "redirect:/boards";
     }
-
 
     @DeleteMapping("")
     public String boardDelete(@RequestParam("boardId") Long boardId) {

@@ -27,9 +27,7 @@
                               th:utext="${boardInfo.getContent().toString()}"
                               rows="3"></textarea>
                 </div>
-
                 <hr>
-
                 <div class="card mb-2 mt-5">
                     <div class="card-header bg-light">
                         <i class="fa fa-comment fa"></i> 댓글작성하기
@@ -37,7 +35,7 @@
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item">
-                                <form method="POST" action="/boards/comment">
+                                <form method="POST" action="/comments">
                                     <input type="hidden" name="boardId" class="form-control"
                                            th:value="${boardInfo.id}">
                                     <textarea class="form-control" id="exampleFormControlTextarea1"
@@ -57,25 +55,33 @@
                             <div class="d-flex">
                                 <span class="text-monospace mr-1">작성자: </span>
                                 <div class="text-monospace mr-1" th:text="${comment.user.userName}"></div>
-
-                                <a class="btn btn-primary" data-toggle="collapse" th:data-target="${'#collapsePad'+comment.id}" aria-expanded="false" aria-controls="collapsePad" sec:authorize="isAuthenticated()" th:if="${principalDetails.getUser().getUserId() == comment.user.userId}">수정
+                                <a class="badge btn-primary " data-toggle="collapse"
+                                   th:data-target="${'#collapsePad'+comment.id}" aria-expanded="false"
+                                   aria-controls="collapsePad" sec:authorize="isAuthenticated()"
+                                   th:if="${principalDetails.getUser().getUserId() == comment.user.userId}">수정
                                 </a>
-
-                                <button class="badge btn-danger" th:if="${principalDetails.getUser().getUserId() == comment.user.userIdor principalDetails.getUser.getRole()=='ROLE_ADMIN'}">삭제
+                                <form method="post" th:action="@{/comments/{id}(id = ${comment.id})}">
+                                    <input type="hidden" name="_method" value="DELETE"/>
+                                <button class="badge btn-danger"
+                                        th:if="${principalDetails.getUser().getUserId() == comment.user.userId or principalDetails.getUser.getRole()=='ROLE_ADMIN'}">
+                                    삭제
                                 </button>
+                                </form>
                             </div>
                         </li>
-                        <div class="collapse" th:id="'collapsePad'+${comment.id}">
-                            <div class="well">
-                                         <textarea class="form-control"
-                                                   placeholder="댓글을 수정하세요" name="content"></textarea>
+                        <form method="post" th:action="@{/comments/{id}(id = ${comment.id})}">
+                            <input type="hidden" name="_method" value="PUT"/>
+                            <input type="hidden" name="boardId" class="form-control" th:value="${boardInfo.id}">
+                            <input type="hidden" name="commentUserName" th:value="${comment.user.userName}"/>
+                            <div class="collapse" th:id="'collapsePad'+${comment.id}">
+                                <div class="well">
+                                    <textarea class="form-control" placeholder="댓글을 수정하세요" name="content"></textarea>
+                                </div>
+                                <button>수정</button>
                             </div>
-                            <button>수정</button>
-                        </div>
+                        </form>
                     </ul>
-
                 </div>
-
 
                 <form method="post" action="/boards">
                     <input type="hidden" name="_method" value="DELETE"/>
