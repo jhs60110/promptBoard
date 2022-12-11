@@ -17,4 +17,8 @@ public class CommentService {
         //기존 List<Comment>값으로 넘어가지만 페이징 설정을 해주면 Page<Comment>로 넘어간다
         return commentRepository.findAll(pageable);
     }
+
+
+
+
 }

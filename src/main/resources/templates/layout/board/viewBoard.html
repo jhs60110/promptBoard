@@ -62,10 +62,10 @@
                                 </a>
                                 <form method="post" th:action="@{/comments/{id}(id = ${comment.id})}">
                                     <input type="hidden" name="_method" value="DELETE"/>
-                                <button class="badge btn-danger"
-                                        th:if="${principalDetails.getUser().getUserId() == comment.user.userId or principalDetails.getUser.getRole()=='ROLE_ADMIN'}">
-                                    삭제
-                                </button>
+                                    <button class="badge btn-danger" id="deleteComment"
+                                            th:if="${principalDetails.getUser().getUserId() == comment.user.userId or principalDetails.getUser.getRole()=='ROLE_ADMIN'}">
+                                        삭제
+                                    </button>
                                 </form>
                             </div>
                         </li>
@@ -101,18 +101,10 @@
                 </form>
             </div>
         </div>
-        <button type="button" class="btn btn-secondary" onclick="location.href='/boards'">목록</button>
+        <button type="button" class="btn btn-secondary" onclick="location.href='/'">목록</button>
     </th:block>
     <th:block layout:fragment="script">
-        <script>
-            $(document).ready(function () {
-                $('#summernote').summernote('disable');
-            });
-            $('#collapse').collapse({
-                toggle: false
-            })
-
-        </script>
+        <script src="/js/viewBoard.js"></script>
     </th:block>
 </th:block>
 

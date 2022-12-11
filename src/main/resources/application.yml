@@ -2,6 +2,9 @@ server:
   port: 8080
   servlet:
     context-path: [ contextPath ]
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   devtools:
     livereload:
       enabled: true
@@ -31,3 +34,5 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+file:
+  path: /Users/seohaesu/Downloads

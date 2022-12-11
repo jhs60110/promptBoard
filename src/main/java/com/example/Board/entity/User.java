@@ -24,6 +24,9 @@ public class User {
     @OneToMany(mappedBy = "user") //어느 테이블에 매핑되는지
     private List<Comment> comment = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user") //어느 테이블에 매핑되는지
+    private List<BoardFile> boardFile = new ArrayList<>();
+
     @Column(nullable = false, length = 10)
     private String userName;
 
