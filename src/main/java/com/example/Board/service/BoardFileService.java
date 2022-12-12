@@ -13,17 +13,24 @@ import java.util.List;
 
 
 @Service
-public class FileService {
+public class BoardFileService {
+
     private Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
-    private BoardFileRepository fileRepository;
+    private BoardFileRepository boardFileRepository;
 
-    public void callFileRepository(List<BoardFile> fileList, Board board) {
+    public List<BoardFile> selectBoard(Long id) {
+        List<BoardFile> boardFile = boardFileRepository.findByBoardId(id);
+
+        return boardFile;
+    }
+
+    public void saveBoardFile(List<BoardFile> fileList, Board board) {
 
         for (BoardFile boardFile : fileList) {
             boardFile.setBoard(board);
-            fileRepository.save(boardFile);
+            boardFileRepository.save(boardFile);
         }
     }
 }

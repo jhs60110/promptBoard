@@ -7,53 +7,50 @@ import com.example.Board.entity.User;
 import com.example.Board.repository.BoardRepository;
 import com.example.Board.repository.CommentRepository;
 import com.example.Board.repository.UserRepository;
+import com.example.Board.service.BoardService;
+import com.example.Board.service.CommentService;
+import com.example.Board.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/comments")
 public class CommentController {
     @Autowired
-    private BoardRepository boardRepository;
+    private BoardService boardService;
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
     @Autowired
-    private CommentRepository commentRepository;
+    private CommentService commentService;
 
     @PostMapping("")
-    public String commentWrite(Comment comment, Authentication authentication, @RequestParam("boardId") Long boardId, HttpServletRequest request) {
-        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        User authId = userRepository.findByUserName(principalDetails.getUsername());
-        Board commentBoardId = boardRepository.getReferenceById(boardId);
-        comment.setUser(authId);
-        comment.setBoard(commentBoardId);
-        commentRepository.save(comment);
+    public String saveComment(Comment comment, Authentication authentication, @RequestParam("boardId") Long boardId, HttpServletRequest request) {
+        User authId = userService.selectUser(authentication);
+        Board commentBoardId = boardService.getReferenceById(boardId);
+
+        commentService.saveComment(comment, authId, commentBoardId);
 
         return "redirect:" + request.getHeader("Referer");
     }
 
     @PutMapping("/{id}")
-    public String commentUpdate(Comment comment, HttpServletRequest request, @PathVariable Long id, @RequestParam("commentUserName") String userName, @RequestParam("boardId") Board boardId) {
-        User authId = userRepository.findByUserName(userName);
-        comment.setUser(authId);
-        comment.setBoard(boardId);
-        comment.setId(id);
-        commentRepository.save(comment);
+    public String updateComment(Comment comment, Authentication authentication, HttpServletRequest request, @PathVariable Long id, @RequestParam("commentUserName") String userName, @RequestParam("boardId") Board boardId) {
+        User authId = userService.selectUser(authentication);
+        commentService.updateComment(comment, authId, boardId, id);
 
         return "redirect:" + request.getHeader("Referer");
     }
 
     @DeleteMapping("/{id}")
-    public String commentUpdate(Comment comment, HttpServletRequest request, @PathVariable Long id) {
-        commentRepository.deleteById(id);
+    public String deleteComment(HttpServletRequest request, @PathVariable Long id) {
+        commentService.deleteComment(id);
 
         return "redirect:" + request.getHeader("Referer");
     }
-
 
 
 }

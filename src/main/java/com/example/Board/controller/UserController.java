@@ -2,6 +2,7 @@ package com.example.Board.controller;
 
 import com.example.Board.entity.User;
 import com.example.Board.repository.UserRepository;
+import com.example.Board.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,7 @@ public class UserController {
 
     private Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private UserService userService;
 
     @GetMapping("/login")
     public String login(Model model) {
@@ -43,11 +41,7 @@ public class UserController {
 
     @PostMapping("/join")
     public String join(User user) {
-        String rawPassword = user.getPassword();
-        String encPassword = bCryptPasswordEncoder.encode(rawPassword);
-        user.setPassword(encPassword);
-        user.setRole("ROLE_USER");
-        userRepository.save(user);
+        userService.saveUser(user);
 
         return "redirect:/account/login";
     }

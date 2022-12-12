@@ -21,7 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable(); //비활성화
         http.authorizeRequests()
-                .antMatchers("/boards/**").authenticated() // TODO todo사용하기
+                .antMatchers("/boards/**").authenticated()
                 //.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
                 //.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') and hasRole('ROLE_USER')")
                 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")//이 주소로 들어오면 인증&&ADMIN 권한이 필요해요

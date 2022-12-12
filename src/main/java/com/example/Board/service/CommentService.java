@@ -1,11 +1,12 @@
 package com.example.Board.service;
 
+import com.example.Board.entity.Board;
 import com.example.Board.entity.Comment;
+import com.example.Board.entity.User;
 import com.example.Board.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class CommentService {
@@ -13,12 +14,26 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
-    public Page<Comment> commentList(Pageable pageable) {
-        //기존 List<Comment>값으로 넘어가지만 페이징 설정을 해주면 Page<Comment>로 넘어간다
-        return commentRepository.findAll(pageable);
+    public void saveComment(Comment comment, User authId, Board commentBoardId) {
+        comment.setUser(authId);
+        comment.setBoard(commentBoardId);
+        commentRepository.save(comment);
     }
 
+    public void updateComment(Comment comment, User authId, Board boardId, Long id) {
+        comment.setId(id);
+        comment.setUser(authId);
+        comment.setBoard(boardId);
+        commentRepository.save(comment);
+    }
 
+    public List<Comment> selectBoard(Long id) {
+        List<Comment> comment = commentRepository.findByBoardId(id);
 
+        return comment;
+    }
 
+    public void deleteComment(Long id) {
+        commentRepository.deleteById(id);
+    }
 }

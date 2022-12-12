@@ -1,10 +1,9 @@
-package com.example.Board;
+package com.example.Board.service;
 
 import com.example.Board.controller.UserController;
 import com.example.Board.entity.BoardFile;
 import com.example.Board.entity.User;
 import com.example.Board.repository.UserRepository;
-import com.example.Board.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -42,20 +42,17 @@ public class FileHandler {
                 if (originalName.equals("")) {
                     continue;
                 }
-                logger.info("originalName :", originalName);
                 String fileName = originalName.substring(originalName.lastIndexOf("\\") + 1);
-                logger.info("fileName :", fileName);
                 String uuid = UUID.randomUUID().toString();
-
                 String savefileName = uploadPath + File.separator + uuid + "_" + fileName;
-                logger.info("savefileName :", savefileName);
 
                 Path savePath = Paths.get(savefileName);
 
-                File file = new File(uploadPath); //파일 저장 경로 확인, 없으면 만든다.
+                File file = new File(uploadPath);
                 if (!file.exists()) {
                     file.mkdirs();
                 }
+
                 BoardFile boardFile = new BoardFile();
                 boardFile.setUser(user);
                 boardFile.setFilePath(uploadPath);
@@ -64,7 +61,6 @@ public class FileHandler {
                 boardFile.setSavedFileName(savefileName);
 
                 fileList.add(boardFile);
-                logger.info(fileList.toString());
 
                 multipartFile.transferTo(savePath);
 
@@ -73,11 +69,7 @@ public class FileHandler {
             }
             return fileList;
         }
-
         return null;
-
     }
-
-
 }
 
