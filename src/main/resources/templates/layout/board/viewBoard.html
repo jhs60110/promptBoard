@@ -27,6 +27,22 @@
                               th:utext="${boardInfo.getContent().toString()}"
                               rows="3"></textarea>
                 </div>
+                <div class="card">
+                    <div class="card-header">첨부파일</div>
+
+                    <ul class="list-group" th:each="boardFile : ${boardFile}">
+                        <li th:id="'rid' + ${boardFile.id} " class="list-group-item d-flex justify-content-between">
+                            <a th:text="${boardFile.getOriginalFileName()}" ></a>
+                        </li>
+
+                    </ul>
+                </div>
+                </div>
+
+
+
+
+
                 <hr>
                 <div class="card mb-2 mt-5">
                     <div class="card-header bg-light">

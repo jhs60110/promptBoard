@@ -3,8 +3,10 @@ package com.example.Board.controller;
 import com.example.Board.FileHandler;
 import com.example.Board.config.PrincipalDetails;
 import com.example.Board.entity.Board;
+import com.example.Board.entity.BoardFile;
 import com.example.Board.entity.Comment;
 import com.example.Board.entity.User;
+import com.example.Board.repository.BoardFileRepository;
 import com.example.Board.repository.BoardRepository;
 import com.example.Board.repository.CommentRepository;
 import com.example.Board.repository.UserRepository;
@@ -28,11 +30,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/boards")
 public class BoardController {
-    @Value("${file.path}")
-    private String uploadDir;
     private Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private FileService fileService;
+    @Autowired
+    private BoardFileRepository boardFileRepository;
     @Autowired
     private BoardRepository boardRepository;
     @Autowired
@@ -41,8 +43,6 @@ public class BoardController {
     private CommentRepository commentRepository;
     @Autowired
     private FileHandler fileHandler;
-//    @Autowired
-//    private FileRepository fileRepository;
 
     @GetMapping("/{id}")
     public String boardView(Model model, Authentication authentication, @PathVariable Long id) {
@@ -52,9 +52,11 @@ public class BoardController {
         }
         Board boardInfo = boardRepository.findById(id).get();
         List<Comment> comment = commentRepository.findByBoardId(id);
+        List<BoardFile> boardFile = boardFileRepository.findByBoardId(id);
 
-        model.addAttribute("comment", comment);
         model.addAttribute("boardInfo", boardInfo);
+        model.addAttribute("comment", comment);
+        model.addAttribute("boardFile", boardFile);
 
         return "layout/board/viewBoard";
     }
@@ -67,41 +69,16 @@ public class BoardController {
         return "layout/board/makeBoard";
     }
 
-//    @PostMapping("")
-//    public String boardWrite(@RequestParam("file") MultipartFile file,  Board board, @RequestParam("boardId") Long boardId, @RequestParam("userName") String userName) throws Exception {
-//        User authId = userRepository.findByUserName(userName);
-//        board.setUser(authId);
-//        boardRepository.save(board);
-//        logger.info(String.valueOf(board));
-//
-//
-//
-//        if (file != null) {
-//            fileService.saveFile(file, boardId);
-//
-////            for (MultipartFile multipartFile : files) {
-////                fileService.saveFile(multipartFile, boardId);
-////            }
-//
-//        }
         @PostMapping("")
         public String boardWrite(@RequestParam("title") String boardTitle, @RequestParam("content") String boardContent, @RequestParam("author") String userName, @RequestPart(value="files",required = false) List<MultipartFile> boardFile, Board board) throws IOException {
-        logger.info("호출--------------------------------");
         User authId = userRepository.findByUserName(userName);
             board.setTitle(boardTitle);
             board.setContent(boardContent);
             board.setUser(authId);
             boardRepository.save(board);
-            logger.info(String.valueOf(board));
 
             if (boardFile != null){
-                logger.info("파일있다.");
-                logger.info(String.valueOf(boardFile.isEmpty()));
-
-
                 fileService.callFileRepository(fileHandler.UserFileUpload( boardFile, String.valueOf(authId)), board);
-            }else{
-                logger.info("파일없대");
             }
 
 
