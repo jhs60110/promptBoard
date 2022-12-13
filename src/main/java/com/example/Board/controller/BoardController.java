@@ -6,10 +6,6 @@ import com.example.Board.entity.Board;
 import com.example.Board.entity.BoardFile;
 import com.example.Board.entity.Comment;
 import com.example.Board.entity.User;
-import com.example.Board.repository.BoardFileRepository;
-import com.example.Board.repository.BoardRepository;
-import com.example.Board.repository.CommentRepository;
-import com.example.Board.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +55,7 @@ public class BoardController {
 
         return "layout/board/viewBoard";
     }
+
 
     @GetMapping("/new")
     public String saveBoard(Model model, Authentication authentication) {

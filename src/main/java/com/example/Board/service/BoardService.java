@@ -6,7 +6,12 @@ import com.example.Board.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class BoardService {
@@ -42,7 +47,9 @@ public class BoardService {
 
         return boardInfo;
     }
-
+    public Page<Board> boardSearchList(String SearchKeyword,Pageable pageable){
+        return boardRepository.findByTitleContaining(SearchKeyword, pageable);
+    }
     public void deleteBoard(Long boardId) {
         boardRepository.deleteById(boardId);
     }
@@ -55,7 +62,6 @@ public class BoardService {
 
     public Page<Board> boardList(Pageable pageable) {
         //기존 List<Board>값으로 넘어가지만 페이징 설정을 해주면 Page<Board>로 넘어간다
-
         return boardRepository.findAll(pageable);
     }
 
