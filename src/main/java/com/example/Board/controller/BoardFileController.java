@@ -34,7 +34,7 @@ public class BoardFileController {
         String originalFileName = boardFile.get().getOriginalFileName();
 
         String path =savedFileName;
-        
+
         byte[] fileByte = FileUtils.readFileToByteArray(new File(path));
 
         response.setContentType("application/octet-stream");

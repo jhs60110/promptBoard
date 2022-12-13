@@ -33,6 +33,10 @@ public class BoardService {
         return boardInfo;
     }
 
+    public int updateViews(Long id) {
+        return this.boardRepository.updateViews(id);
+    }
+
     public Board selectBoard(Long id) {
         Board boardInfo = boardRepository.findById(id).get();
 

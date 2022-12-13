@@ -34,6 +34,8 @@ public class Board {
 
     @Column(nullable = false, length = 600)
     private String content;
+    @Column(columnDefinition = "integer default 0", nullable = false)
+    private int views;
 
     @CreationTimestamp
     private Date createdDate;
@@ -43,5 +45,7 @@ public class Board {
 
     @DateTimeFormat
     private Date deletedDate;
+
+
 
 }

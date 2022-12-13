@@ -34,10 +34,6 @@ public class BoardFile {
     @Column(nullable = false)
     private String savedFileName;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
     private Long fileSize;
 
     @CreationTimestamp

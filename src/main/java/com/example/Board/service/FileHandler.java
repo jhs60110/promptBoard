@@ -2,8 +2,6 @@ package com.example.Board.service;
 
 import com.example.Board.controller.UserController;
 import com.example.Board.entity.BoardFile;
-import com.example.Board.entity.User;
-import com.example.Board.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,15 +21,12 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 public class FileHandler {
-    private Logger logger = LoggerFactory.getLogger(UserController.class);
     @Value("${file.path}")
     private String uploadPath;
-    private final UserRepository userRepository;
 
-    public List<BoardFile> UserFileUpload(List<MultipartFile> boardFiles, String userId) throws IOException {
+    public List<BoardFile> UserFileUpload(List<MultipartFile> boardFiles) throws IOException {
 
         List<BoardFile> fileList = new ArrayList<>();
-        User user = userRepository.findByUserId(userId);
         if (boardFiles.isEmpty()) {
             return fileList;
         }
@@ -54,7 +49,6 @@ public class FileHandler {
                 }
 
                 BoardFile boardFile = new BoardFile();
-                boardFile.setUser(user);
                 boardFile.setFilePath(uploadPath);
                 boardFile.setFileSize(multipartFile.getSize());
                 boardFile.setOriginalFileName(multipartFile.getOriginalFilename());

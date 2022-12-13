@@ -49,6 +49,7 @@ public class BoardController {
         }
 
         Board boardInfo = boardService.selectBoard(id);
+        boardService.updateViews(boardInfo.getId());
         List<Comment> comment = commentService.selectBoard(id);
         List<BoardFile> boardFile = boardFileService.selectBoard(id);
 
@@ -73,7 +74,7 @@ public class BoardController {
         boardService.saveBoard(board, boardTitle, boardContent, authId);
 
         if (boardFile != null) {
-            fileService.saveBoardFile(fileHandler.UserFileUpload(boardFile, String.valueOf(authId)), board);
+            fileService.saveBoardFile(fileHandler.UserFileUpload(boardFile), board);
         }
 
         return "redirect:/";

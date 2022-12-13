@@ -15,7 +15,7 @@
                     <th>제목</th>
                     <th>작성자</th>
                     <th>작성시간</th>
-                    <th></th>
+                    <th>조회수</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -30,6 +30,9 @@
                     </td>
                     <td>
                         <a th:text="${board.createdDate}" th:href="@{/boards/{id}(id = ${board.id})}"></a>
+                    </td>
+                    <td>
+                        <a th:text="${board.getViews()}" th:href="@{/boards/{id}(id = ${board.id})}"></a>
                     </td>
                     <td>
                         <button type="button" class="btn btn-secondary" sec:authorize="isAuthenticated()"
