@@ -5,9 +5,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/fragments/basic}"
       xmlns:sec="http://www.w3.org/1999/xhtml">
-<!-- Responsive navbar-->
 <th:block layout:fragment="content">
-    <!-- Page content-->
     <th:block layout:fragment="page_content" id="page_content">
         <div class="container">
             <div class="login-wrapper">
@@ -42,16 +40,7 @@
 
     </th:block>
     <th:block layout:fragment="script">
-        <script>
-            // 메인화면 페이지 로드 함수
-            $(document).ready(function () {
-                $('#summernote').summernote({
-                    height: 400,
-                    maxHeight: 400
-                });
-            });
-
-        </script>
+        <script src="/js/updateBoard.js"></script>
     </th:block>
 </th:block>
 

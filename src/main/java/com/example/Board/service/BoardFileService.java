@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -26,6 +27,11 @@ public class BoardFileService {
         return boardFile;
     }
 
+    public Optional<BoardFile> selectBoardFile(Long id) {
+        Optional<BoardFile> boardFile = boardFileRepository.findById(id);
+
+        return boardFile;
+    }
     public void saveBoardFile(List<BoardFile> fileList, Board board) {
 
         for (BoardFile boardFile : fileList) {

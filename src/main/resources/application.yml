@@ -35,4 +35,4 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
 file:
-  path: /Users/seohaesu/Downloads
+  path: /Users/seohaesu/Downloads/해수board
