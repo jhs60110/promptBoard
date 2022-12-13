@@ -28,9 +28,8 @@ public class CommentService {
     }
 
     public List<Comment> selectBoard(Long id) {
-        List<Comment> comment = commentRepository.findByBoardId(id);
 
-        return comment;
+        return commentRepository.findByBoardId(id);
     }
 
     public void deleteComment(Long id) {

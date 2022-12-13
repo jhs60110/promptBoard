@@ -15,11 +15,16 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public User selectUser(Authentication authentication) {
+    public User findUserId(Authentication authentication) {
         PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-        User authId = userRepository.findByUserName(principalDetails.getUsername());
 
-        return authId;
+        return userRepository.findByUserName(principalDetails.getUsername());
+    }
+
+    public String findUserName(Authentication authentication) {
+        PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
+
+        return principalDetails.getUsername();
     }
 
     public void saveUser(User user) {

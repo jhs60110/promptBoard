@@ -33,35 +33,34 @@ public class BoardService {
     }
 
     public Board selectBoard(Board board) {
-        Board boardInfo = boardRepository.findById(board.getId()).get();
 
-        return boardInfo;
+        return boardRepository.findById(board.getId()).get();
     }
 
     public int updateViews(Long id) {
+
         return this.boardRepository.updateViews(id);
     }
 
     public Board selectBoard(Long id) {
-        Board boardInfo = boardRepository.findById(id).get();
 
-        return boardInfo;
+        return boardRepository.findById(id).get();
     }
-    public Page<Board> boardSearchList(String SearchKeyword,Pageable pageable){
+    public Page<Board> searchBoardList(String SearchKeyword,Pageable pageable){
+
         return boardRepository.findByTitleContaining(SearchKeyword, pageable);
     }
     public void deleteBoard(Long boardId) {
         boardRepository.deleteById(boardId);
     }
 
-    public Board getReferenceById(Long boardId) {
-        Board commentBoardId = boardRepository.getReferenceById(boardId);
+    public Board selectReferenceById(Long boardId) {
 
-        return commentBoardId;
+        return boardRepository.getReferenceById(boardId);
     }
 
-    public Page<Board> boardList(Pageable pageable) {
-        //기존 List<Board>값으로 넘어가지만 페이징 설정을 해주면 Page<Board>로 넘어간다
+    public Page<Board> selectBoardList(Pageable pageable) {
+
         return boardRepository.findAll(pageable);
     }
 
