@@ -3,7 +3,15 @@
 ### java :v17
 ### DB :mysql
 
-#### mysql schema 생성 후 application.yml datasource 수정 후 실행
+#### mysql schema 생성(board) 후 
+#### 하단 application.yml datasource 수정 후 실행
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/board?serverTimezone=Asia/Seoul
+    username: root
+    password:
 
 
 ### 구현 기능
