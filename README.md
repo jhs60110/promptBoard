@@ -4,7 +4,7 @@
 ### DB :mysql
 
 #### mysql schema 생성(board) 후 
-#### 하단 application.yml datasource 수정 후 실행
+#### 하단 application.yml datasource 수정 
 
     spring:
       datasource:
@@ -13,6 +13,10 @@
         username: root
         password:
 
+#### 첨부파일 경로 수정
+#### 하단 application.yml file 수정 
+    file:
+      path: /Users/seohaesu/Downloads/해수board
 
 ### 구현 기능
 1. 회원가입
