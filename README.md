@@ -3,8 +3,8 @@
 ### java :v17
 ### DB :mysql
 
-#### mysql schema 생성(board) 후 
-#### 하단 application.yml datasource 수정 
+#### 1. mysql schema 생성(board) 후 
+####    하단 application.yml datasource 수정 
 
     spring:
       datasource:
@@ -13,8 +13,8 @@
         username: root
         password:
 
-#### 첨부파일 경로 수정
-#### 하단 application.yml file 수정 
+#### 2.첨부파일 경로 수정
+####   하단 application.yml file 수정 
     file:
       path: /Users/seohaesu/Downloads/해수board
 
