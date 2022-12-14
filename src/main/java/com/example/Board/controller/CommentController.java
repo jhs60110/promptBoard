@@ -23,17 +23,17 @@ public class CommentController {
     private CommentService commentService;
 
     @PostMapping("")
-    public String saveComment(Comment comment, Authentication authentication, @RequestParam("boardId") Long boardId, HttpServletRequest request) {
-        User authId = userService.findUserId(authentication);
-        Board commentBoardId = boardService.selectReferenceById(boardId);
-        commentService.saveComment(comment, authId, commentBoardId);
+    public String setComment(Comment comment, Authentication authentication, @RequestParam("boardId") Long boardId, HttpServletRequest request) {
+        User authId = userService.getUserId(authentication);
+        Board commentBoardId = boardService.getReferenceById(boardId);
+        commentService.setComment(comment, authId, commentBoardId);
 
         return "redirect:" + request.getHeader("Referer");
     }
 
     @PutMapping("/{id}")
     public String updateComment(Comment comment, Authentication authentication, HttpServletRequest request, @PathVariable Long id, @RequestParam("commentUserName") String userName, @RequestParam("boardId") Board boardId) {
-        User authId = userService.findUserId(authentication);
+        User authId = userService.getUserId(authentication);
         commentService.updateComment(comment, authId, boardId, id);
 
         return "redirect:" + request.getHeader("Referer");

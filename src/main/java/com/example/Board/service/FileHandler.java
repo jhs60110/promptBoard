@@ -24,7 +24,7 @@ public class FileHandler {
     @Value("${file.path}")
     private String uploadPath;
 
-    public List<BoardFile> UserFileUpload(List<MultipartFile> boardFiles) throws IOException {
+    public List<BoardFile> setFiles(List<MultipartFile> boardFiles) throws IOException {
 
         List<BoardFile> fileList = new ArrayList<>();
         if (boardFiles.isEmpty()) {

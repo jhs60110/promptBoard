@@ -14,17 +14,14 @@ public class BoardFileService {
     @Autowired
     private BoardFileRepository boardFileRepository;
 
-    public List<BoardFile> selectBoard(Long id) {
-
+    public List<BoardFile> getBoards(Long id) {
         return boardFileRepository.findByBoardId(id);
     }
 
-    public Optional<BoardFile> selectBoardFile(Long id) {
-
+    public Optional<BoardFile> getBoardFile(Long id) {
         return boardFileRepository.findById(id);
     }
-    public void saveBoardFile(List<BoardFile> fileList, Board board) {
-
+    public void setBoardFile(List<BoardFile> fileList, Board board) {
         for (BoardFile boardFile : fileList) {
             boardFile.setBoard(board);
             boardFileRepository.save(boardFile);

@@ -34,23 +34,23 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="board:${list}">
-                    <td th:text="${board.id}">1</td>
+                <tr th:each="boards:${list}">
+                    <td th:text="${boards.id}">1</td>
                     <td>
-                        <a th:text="${board.title}" th:href="@{/boards/{id}(id = ${board.id})}"></a>
+                        <a th:text="${boards.title}" th:href="@{/boards/{id}(id = ${boards.id})}"></a>
                     </td>
                     <td>
-                        <a th:text="${board.user.userName}" th:href="@{/boards/{id}(id = ${board.id})}"></a>
+                        <a th:text="${boards.user.userName}" th:href="@{/boards/{id}(id = ${boards.id})}"></a>
                     </td>
                     <td>
-                        <a th:text="${board.createdDate}" th:href="@{/boards/{id}(id = ${board.id})}"></a>
+                        <a th:text="${boards.createdDate}" th:href="@{/boards/{id}(id = ${boards.id})}"></a>
                     </td>
                     <td>
-                        <a th:text="${board.getViews()}" th:href="@{/boards/{id}(id = ${board.id})}"></a>
+                        <a th:text="${boards.getViews()}" th:href="@{/boards/{id}(id = ${boards.id})}"></a>
                     </td>
                     <td>
                         <button type="button" class="btn btn-secondary" sec:authorize="isAuthenticated()"
-                                th:onclick="'location.href=\''+ @{/boards/{id}(id = ${board.id})} + '\''">상세보기
+                                th:onclick="'location.href=\''+ @{/boards/{id}(id = ${boards.id})} + '\''">상세보기
                         </button>
                     </td>
                 </tr>

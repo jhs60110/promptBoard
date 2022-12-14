@@ -19,20 +19,21 @@ public class Board {
     private Long id;
 
     @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id") //실제 DB ID
+    @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    private List<Comment> comment = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-    private List<BoardFile> boardFile = new ArrayList<>();
+    private List<BoardFile> boardFiles = new ArrayList<>();
 
     @Column(nullable = false, length = 30)
     private String title;
 
     @Column(nullable = false, length = 600)
     private String content;
+
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int views;
 

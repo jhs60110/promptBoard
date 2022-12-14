@@ -21,9 +21,9 @@ public class BoardFileController {
     private BoardFileService boardFileService;
 
     @GetMapping("/download/{boardFileId}")
-    public void download(HttpServletResponse response, @PathVariable Long boardFileId) throws IOException {
+    public void downloadFile(HttpServletResponse response, @PathVariable Long boardFileId) throws IOException {
 
-        Optional<BoardFile> boardFile = boardFileService.selectBoardFile(boardFileId);
+        Optional<BoardFile> boardFile = boardFileService.getBoardFile(boardFileId);
         String savedFileName = boardFile.get().getSavedFileName();
         String originalFileName = boardFile.get().getOriginalFileName();
         String path =savedFileName;

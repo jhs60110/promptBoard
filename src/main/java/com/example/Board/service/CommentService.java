@@ -14,7 +14,7 @@ public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
 
-    public void saveComment(Comment comment, User authId, Board commentBoardId) {
+    public void setComment(Comment comment, User authId, Board commentBoardId) {
         comment.setUser(authId);
         comment.setBoard(commentBoardId);
         commentRepository.save(comment);
@@ -27,8 +27,7 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
-    public List<Comment> selectBoard(Long id) {
-
+    public List<Comment> getBoards(Long id) {
         return commentRepository.findByBoardId(id);
     }
 

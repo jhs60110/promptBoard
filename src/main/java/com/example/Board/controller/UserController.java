@@ -19,7 +19,7 @@ public class UserController {
     @GetMapping("/login")
     public String login(Model model) {
 
-        return "layout/login";
+        return "layout/authority/login";
     }
 
     @PostMapping("/login")
@@ -31,12 +31,12 @@ public class UserController {
     @GetMapping("/join")
     public String join() {
 
-        return "layout/join";
+        return "layout/authority/join";
     }
 
     @PostMapping("/join")
     public String join(User user) {
-        userService.saveUser(user);
+        userService.setUser(user);
 
         return "redirect:/account/login";
     }

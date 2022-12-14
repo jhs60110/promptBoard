@@ -17,12 +17,12 @@ public class MainController {
     private BoardService boardService;
 
     @GetMapping({"", "/search/list"})
-    public String boardMain(Model model, @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.ASC) Pageable pageable, String searchKeyword) {
+    public String boardMain(Model model, @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable, String searchKeyword) {
 
         Page<Board> list = null;
 
         if(searchKeyword == null) {
-            list = boardService.selectBoardList(pageable);
+            list = boardService.getBoardList(pageable);
         }else {
             list = boardService.searchBoardList(searchKeyword, pageable);
         }

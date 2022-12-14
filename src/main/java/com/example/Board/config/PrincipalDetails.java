@@ -55,15 +55,15 @@ public class PrincipalDetails implements UserDetails {
     //해당 유저의 권한을 리턴함
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> collet = new ArrayList<GrantedAuthority>();
-        collet.add(new GrantedAuthority() {
+        Collection<GrantedAuthority> collets = new ArrayList<GrantedAuthority>();
+        collets.add(new GrantedAuthority() {
                        @Override
                        public String getAuthority() {
                            return user.getRole();
                        }
                    }
         );
-        return collet;
+        return collets;
     }
 
     public Map<String, Object> getAttributes() {

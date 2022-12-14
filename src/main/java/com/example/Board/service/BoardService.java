@@ -19,7 +19,7 @@ public class BoardService {
     @Autowired
     private BoardRepository boardRepository;
 
-    public void saveBoard(Board board, String boardTitle, String boardContent, User authId) {
+    public void setBoard(Board board, String boardTitle, String boardContent, User authId) {
         board.setTitle(boardTitle);
         board.setContent(boardContent);
         board.setUser(authId);
@@ -32,36 +32,31 @@ public class BoardService {
         boardRepository.save(board);
     }
 
-    public Board selectBoard(Board board) {
-
-        return boardRepository.findById(board.getId()).get();
-    }
-
     public int updateViews(Long id) {
-
         return this.boardRepository.updateViews(id);
     }
 
-    public Board selectBoard(Long id) {
+    public Board getBoard(Board board) {
+        return boardRepository.findById(board.getId()).get();
+    }
 
+    public Board getBoard(Long id) {
         return boardRepository.findById(id).get();
     }
-    public Page<Board> searchBoardList(String SearchKeyword,Pageable pageable){
 
-        return boardRepository.findByTitleContaining(SearchKeyword, pageable);
-    }
-    public void deleteBoard(Long boardId) {
-        boardRepository.deleteById(boardId);
-    }
-
-    public Board selectReferenceById(Long boardId) {
-
+    public Board getReferenceById(Long boardId) {
         return boardRepository.getReferenceById(boardId);
     }
 
-    public Page<Board> selectBoardList(Pageable pageable) {
-
+    public Page<Board> getBoardList(Pageable pageable) {
         return boardRepository.findAll(pageable);
     }
 
+    public Page<Board> searchBoardList(String SearchKeyword,Pageable pageable){
+        return boardRepository.findByTitleContaining(SearchKeyword, pageable);
+    }
+
+    public void deleteBoard(Long boardId) {
+        boardRepository.deleteById(boardId);
+    }
 }
