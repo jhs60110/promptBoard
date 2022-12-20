@@ -2,7 +2,7 @@ package com.example.Board.controller;
 
 import com.example.Board.entity.Board;
 import com.example.Board.service.BoardService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -10,13 +10,16 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+
+@RequiredArgsConstructor
 @Controller
 public class MainController {
-    @Autowired
-    private BoardService boardService;
 
-    @GetMapping({"", "/search/list"})
+    private final BoardService boardService;
+
+    @GetMapping({"", "/search/list", "/boards/list"})
     public String boardMain(Model model, @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable, String searchKeyword) {
 
         Page<Board> list = null;

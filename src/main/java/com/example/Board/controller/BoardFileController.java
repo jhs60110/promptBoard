@@ -2,23 +2,27 @@ package com.example.Board.controller;
 
 import com.example.Board.entity.BoardFile;
 import com.example.Board.service.BoardFileService;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/files")
 public class BoardFileController {
-    @Autowired
-    private BoardFileService boardFileService;
+
+    private final BoardFileService boardFileService;
 
     @GetMapping("/download/{boardFileId}")
     public void downloadFile(HttpServletResponse response, @PathVariable Long boardFileId) throws IOException {

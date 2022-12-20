@@ -3,26 +3,19 @@ package com.example.Board.service;
 import com.example.Board.entity.Board;
 import com.example.Board.entity.User;
 import com.example.Board.repository.BoardRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class BoardService {
 
-    @Autowired
-    private BoardRepository boardRepository;
+    private final BoardRepository boardRepository;
 
-    public void setBoard(Board board, String boardTitle, String boardContent, User authId) {
-        board.setTitle(boardTitle);
-        board.setContent(boardContent);
-        board.setUser(authId);
+    public void setBoard(Board board, String boardTitle, String boardContent, User user) {
         boardRepository.save(board);
     }
 
@@ -34,6 +27,11 @@ public class BoardService {
 
     public int updateViews(Long id) {
         return this.boardRepository.updateViews(id);
+    }
+
+    public Board findWithRels(Long id){
+
+        return this.boardRepository.findWithRels(id);
     }
 
     public Board getBoard(Board board) {

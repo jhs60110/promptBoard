@@ -6,40 +6,38 @@ import com.example.Board.entity.Board;
 import com.example.Board.entity.BoardFile;
 import com.example.Board.entity.Comment;
 import com.example.Board.entity.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.List;
 
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/boards")
 public class BoardController {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private CommentService commentService;
-    @Autowired
-    private BoardService boardService;
-    @Autowired
-    private BoardFileService boardFileService;
-    @Autowired
-    private BoardFileService fileService;
-    @Autowired
-    private FileHandler fileHandler;
+
+    private final UserService userService;
+
+    private final CommentService commentService;
+    private final BoardService boardService;
+
+    private final BoardFileService boardFileService;
+
+    private final BoardFileService fileService;
+
+    private final FileHandler fileHandler;
 
     @PostMapping("")
-    public String setBoard(@RequestParam("title") String boardTitle, Authentication authentication, @RequestParam("content") String boardContent, @RequestPart(value = "files", required = false) List<MultipartFile> boardFiles, Board board) throws IOException {
+    public String create(@ModelAttribute Board board,
+                         Authentication authentication) throws IOException {
         User authId = userService.getUserId(authentication);
-        boardService.setBoard(board, boardTitle, boardContent, authId);
-
-        if (boardFiles != null) {
-            fileService.setBoardFile(fileHandler.setFiles(boardFiles), board);
-        }
 
         return "redirect:/";
     }
@@ -53,21 +51,19 @@ public class BoardController {
     }
 
     @GetMapping("/{id}")
-    public String getBoard(Model model, Authentication authentication, @PathVariable Long id) {
+    public String find(Model model, Authentication authentication, @PathVariable Long id) {
         if (authentication != null) {
             PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
             model.addAttribute("principalDetails", principalDetails);
             //viewBoard에서 userRole도 쓰고 있어서 한 번에 붙이는게 좋을것같았음
         }
 
-        Board boardInfo = boardService.getBoard(id);
-        boardService.updateViews(boardInfo.getId());
-        List<Comment> comments = commentService.getBoards(id);
-        List<BoardFile> boardFiles = boardFileService.getBoards(id);
+        Board boardInfo = boardService.findWithRels(id);
+
 
         model.addAttribute("boardInfo", boardInfo);
-        model.addAttribute("comments", comments);
-        model.addAttribute("boardFiles", boardFiles);
+
+        //join
 
         return "layout/board/viewBoard";
     }

@@ -7,10 +7,11 @@ import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Transactional
     @Query("select c from Comment c where c.board.id = :id")
-    List<Comment> findByBoardId(@Param("id") Long id);
+    Set<Comment> findByBoardId(@Param("id") Long id);
 
 }

@@ -4,17 +4,19 @@ import com.example.Board.entity.Board;
 import com.example.Board.entity.Comment;
 import com.example.Board.entity.User;
 import com.example.Board.repository.CommentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class CommentService {
 
-    @Autowired
-    private CommentRepository commentRepository;
 
-    public void setComment(Comment comment, User authId, Board commentBoardId) {
+    private final CommentRepository commentRepository;
+
+    public void createComment(Comment comment, User authId, Board commentBoardId) {
         comment.setUser(authId);
         comment.setBoard(commentBoardId);
         commentRepository.save(comment);
@@ -27,7 +29,7 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
-    public List<Comment> getBoards(Long id) {
+    public Set<Comment> getBoards(Long id) {
         return commentRepository.findByBoardId(id);
     }
 

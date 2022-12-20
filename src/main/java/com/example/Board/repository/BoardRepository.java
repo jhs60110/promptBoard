@@ -14,6 +14,13 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Modifying
     @Query("update Board b set b.views = b.views + 1 where b.id = :id")
     int updateViews(@Param("id") Long id);
-    @Transactional
+
     Page<Board> findByTitleContaining(String searchKeyword, Pageable pageable);
+    
+    @Query("SELECT DISTINCT b FROM Board b " +
+            "LEFT JOIN FETCH b.boardFiles " +
+            "LEFT JOIN FETCH b.comments " +
+            "WHERE b.id = :id" )
+    Board findWithRels( @Param("id") Long id);
+
 }

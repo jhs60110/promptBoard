@@ -6,66 +6,99 @@
       xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <th:block layout:fragment="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
 
-    <div class="w-25 p-3">
-        <form th:action="@{/search/list}" method="get">
-            <div class="input-group">
-                <input type="text" class="form-control mr-sm-2" placeholder="제목을 입력하세요" name="searchKeyword">
-                <span class="input-group-btn">
+                <div class="w-25 mb-2">
+                    <form th:action="@{/search/list}" method="get">
+                        <div class="input-group">
+                            <input type="text" class="form-control mr-sm-2" placeholder="제목을 입력하세요"
+                                   name="searchKeyword">
+                            <span class="input-group-btn">
                 <button class="btn btn-info" type="submit">
                     <span class="glyphicon glyphicon-search"></span>
                 </button>
             </span>
-            </div>
-        </form>
-    </div>
+                        </div>
+                    </form>
+                </div>
 
-    <div class="table-responsive clearfix">
-        <div class="layout">
-            <table class="table table-hover">
-                <thead>
-                <tr class="table-secondary">
-                    <th>#</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>작성시간</th>
-                    <th>조회수</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="boards:${list}">
-                    <td th:text="${boards.id}">1</td>
-                    <td>
-                        <a th:text="${boards.title}" th:href="@{/boards/{id}(id = ${boards.id})}"></a>
-                    </td>
-                    <td>
-                        <a th:text="${boards.user.userName}" th:href="@{/boards/{id}(id = ${boards.id})}"></a>
-                    </td>
-                    <td>
-                        <a th:text="${boards.createdDate}" th:href="@{/boards/{id}(id = ${boards.id})}"></a>
-                    </td>
-                    <td>
-                        <a th:text="${boards.getViews()}" th:href="@{/boards/{id}(id = ${boards.id})}"></a>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-secondary" sec:authorize="isAuthenticated()"
-                                th:onclick="'location.href=\''+ @{/boards/{id}(id = ${boards.id})} + '\''">상세보기
+                <div class="table-responsive clearfix">
+                    <div class="layout">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr class="table-secondary">
+                                <th>#</th>
+                                <th>제목</th>
+                                <th>작성자</th>
+                                <th>작성시간</th>
+                                <th>조회수</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="boards:${list}">
+                                <td th:text="${boards.id}">1</td>
+                                <td>
+                                    <a th:text="${boards.title}" th:href="@{/boards/{id}(id = ${boards.id})}"></a>
+                                </td>
+                                <td>
+                                    <a th:text="${boards.user.userName}"
+                                       th:href="@{/boards/{id}(id = ${boards.id})}"></a>
+                                </td>
+                                <td>
+                                    <a th:text="${boards.createdDate}" th:href="@{/boards/{id}(id = ${boards.id})}"></a>
+                                </td>
+                                <td>
+                                    <a th:text="${boards.getViews()}" th:href="@{/boards/{id}(id = ${boards.id})}"></a>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-secondary" sec:authorize="isAuthenticated()"
+                                            th:onclick="'location.href=\''+ @{/boards/{id}(id = ${boards.id})} + '\''">
+                                        상세보기
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <button type="button" class="btn btn-primary" sec:authorize="isAuthenticated()"
+                                onclick="location.href='/boards/new'">글쓰기
                         </button>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <button type="button" class="btn btn-primary" sec:authorize="isAuthenticated()"
-                    onclick="location.href='/boards/new'">글쓰기
-            </button>
-            <div style="text-align: center">
-                <th:block th:each="page:${#numbers.sequence(startPage,endPage)}">
-                    <a th:if="${page != nowPage}" th:href="@{/boards/list(page=${page-1})}" th:text="${page}"></a>
-                    <strong th:if="${page==nowPage}" th:text="${page}" style="color:#5bb7d9"></strong>
-                </th:block>
+
+
+
+                        <div class="pagination-wrapper text-center">
+                            <ul class="pagination">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                </li>
+
+                                <th:block th:each="page:${#numbers.sequence(startPage,endPage)}">
+                                    <li class="page-item">
+                                     <a th:if="${page != nowPage}" th:href="@{/boards/list(page=${page-1})}"
+                                                               th:text="${page}"></a>
+                                    </li>
+                                    <li class="page-item">
+                                    <a th:if="${page==nowPage}" th:text="${page}" ></a>
+                                    </li>
+                                </th:block>
+
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+
+
+                            </ul>
+                        </div>
+
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
+
 </th:block>
 </html>

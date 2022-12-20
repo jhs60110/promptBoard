@@ -1,10 +1,6 @@
 package com.example.Board.service;
 
-import com.example.Board.controller.UserController;
 import com.example.Board.entity.BoardFile;
-import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -14,19 +10,19 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Component
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class FileHandler {
     @Value("${file.path}")
     private String uploadPath;
 
-    public List<BoardFile> setFiles(List<MultipartFile> boardFiles) throws IOException {
+    public Set<BoardFile> setFiles(Set<MultipartFile> boardFiles) throws IOException {
 
-        List<BoardFile> fileList = new ArrayList<>();
+        Set<BoardFile> fileList =  new HashSet<>();
+
+
         if (boardFiles.isEmpty()) {
             return fileList;
         }

@@ -6,27 +6,26 @@ import com.example.Board.entity.User;
 import com.example.Board.service.BoardService;
 import com.example.Board.service.CommentService;
 import com.example.Board.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/comments")
 public class CommentController {
-    @Autowired
-    private BoardService boardService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private CommentService commentService;
+
+    private final BoardService boardService;
+    private final UserService userService;
+    private final CommentService commentService;
 
     @PostMapping("")
     public String setComment(Comment comment, Authentication authentication, @RequestParam("boardId") Long boardId, HttpServletRequest request) {
         User authId = userService.getUserId(authentication);
         Board commentBoardId = boardService.getReferenceById(boardId);
-        commentService.setComment(comment, authId, commentBoardId);
+        commentService.createComment(comment, authId, commentBoardId);
 
         return "redirect:" + request.getHeader("Referer");
     }

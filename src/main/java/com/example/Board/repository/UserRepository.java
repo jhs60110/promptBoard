@@ -8,9 +8,8 @@ import javax.transaction.Transactional;
 // JpaRepository 를 상속하면 자동 컴포넌트 스캔됨.
 //@Repository 어노테이션 없어도 됨 jpaRepo가 들고있음
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Transactional
     User findByUserId(String userId);
-    @Transactional
+
     User findByUserName(String userName);
 
 }

@@ -27,6 +27,26 @@
                         <textarea cols="50" rows="5" th:utext="${boardInfo.getContent().toString()}"
                                   id="summernote" name="content"></textarea><br/>
                     </div>
+
+
+<!--                    <div class="card">-->
+<!--                        <div class="card-header">첨부파일</div>-->
+
+
+<!--                        <ul class="list-group" th:each="boardFiles : ${boardFiles}">-->
+<!--                            <form method="get" th:action="@{/files/download/{id}(id = ${boardFiles.id})}">-->
+<!--                                -->
+<!--                                <li th:id="'rid' + ${boardFiles.id} " class="list-group-item d-flex justify-content-between">-->
+<!--                                    <input type="hidden" th:value="${boardFiles.id}" th:name="boardFilesId">-->
+<!--                                    <input type="submit" th:value="${boardFiles.getOriginalFileName()}">-->
+<!--                                </li>-->
+<!--                            </form>-->
+<!--                        </ul>-->
+
+
+<!--                    </div>-->
+
+
                     <input type="text" th:value="${boardInfo.id}" name="boardId" hidden/>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                         <button class="btn btn-secondary" onclick="location.href='/'" type="button">목록</button>
